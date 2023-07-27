@@ -6,6 +6,7 @@
     <title>Document</title>
   </head>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <script>
     //axios-get
     function onAxiosGet() {
@@ -66,6 +67,39 @@
           console.log(data);
         });
     }
+
+    //请求拦截器
+    // let isRequesting = false; // 是否正在发送请求
+    
+    // axios.interceptors.request.use(
+    //   async (config) => {
+    //     // 如果当前正在发送请求，则返回一个未决的 Promise
+    //     if (isRequesting) {
+    //       return new Promise(() => {});
+    //     }
+
+    //     // 设置标志位，表示当前有请求正在发送
+    //     isRequesting = true;
+
+    //     try {
+    //       const response = await axios.request(config); // 发送请求
+    //       console.log("Received response:", response);
+
+    //       // 请求完成后，将标志位设置为 false
+    //       isRequesting = false;
+    //       return response;
+    //     } catch (error) {
+    //       console.log("Error:", error);
+
+    //       // 请求完成后，将标志位设置为 false
+    //       isRequesting = false;
+    //       throw error;
+    //     }
+    //   },
+    //   (error) => {
+    //     return Promise.reject(error);
+    //   }
+    // );
   </script>
 
   <body>
