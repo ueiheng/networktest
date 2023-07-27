@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    //axios-get
+    function onAxiosGet() {
+      axios
+        .get("http://localhost:3000/get?name=wps")
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    //axios-post
+    function onAxiosPost() {
+      axios
+        .post("http://localhost:3000/post", { name: 1 })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    //fetch-get
+    function onFetchGet() {
+      fetch("http://localhost:3000/get?name=wps")
+        .then((res) => {
+          return res.text();
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    const abort = new AbortController();
+    //fetch-post
+    function onFetchPost() {
+      fetch("http://localhost:3000/post", {
+        method: "post",
+        signal: abort.signal,
+        headers: {
+          "content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: "wps" }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw new Error("Network not connect");
+          }
+        })
+        .then((data) => {
+          console.log(data);
+        });
+    }
+  </script>
+
+  <body>
+    <button onclick="onAxiosGet()">Axios-Get</button>
+    <button onclick="onAxiosPost()">Axios-post</button>
+    <button onclick="onFetchGet()">fetch-Get</button>
+    <button onclick="onFetchPost()">fetch-post</button>
+
+    <div id="progress">进度</div>
+    <button id="fs" onclick="sendFetch()">发送</button>
+    <button id="zt">暂停</button>
+  </body>
+  <script>
+    //暂停
+    const progress = document.getElementById("progress");
+    document.getElementById("zt").addEventListener("click", () => {
+      console.log("stop");
+      abort.abort();
+    });
+
+    const fs = document.getElementById("fs");
+    const sendFetch = async () => {
+      const data = await fetch("http://localhost:3000/api/text");
+      progress.innerHTML = "fs";
+    };
+  </script>
+</html>
